@@ -221,4 +221,24 @@ class EwaysClientTest extends TestCase
         $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
         $client->orderPin($transactionId, $productId, $mobile, $quantity, $email, $optional, $refUrl);
     }
+
+    /** @test */
+    public function it_can_set_and_get_product_property()
+    {
+        $ewaysClient = new EwaysClient('username', 'password');
+        $product = ['id' =>  1];
+        $this->assertEquals([], $ewaysClient->getProduct());
+        $ewaysClient->setProduct($product);
+        $this->assertEquals($product, $ewaysClient->getProduct());
+    }
+
+    /** @test */
+    public function it_can_set_and_get_request_response()
+    {
+        $ewaysClient = new EwaysClient('username', 'password');
+        $response = ['Status' =>  500];
+        $this->assertEquals([], $ewaysClient->getRequestResponse());
+        $ewaysClient->setRequestResponse($response);
+        $this->assertEquals($response, $ewaysClient->getRequestResponse());
+    }
 }

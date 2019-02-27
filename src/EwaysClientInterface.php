@@ -67,4 +67,34 @@ interface EwaysClientInterface
      * @return GetStatusInterface
      */
     public function getStatusClient() : GetStatusInterface;
+
+    /**
+     * Set product on client
+     *
+     * @param array $product
+     * @return EwaysClientInterface
+     */
+    public function setProduct(array $product) : EwaysClientInterface;
+
+    /**
+     * Get product from client
+     *
+     * @return array
+     */
+    public function getProduct() : array;
+
+    /**
+     * Set requestResponse
+     *
+     * @param array $response
+     * @return EwaysClientInterface
+     */
+    public function setRequestResponse(array $response) : EwaysClientInterface;
+
+    /**
+     * Get requestResponse
+     *
+     * @return array
+     */
+    public function getRequestResponse() : array;
 }

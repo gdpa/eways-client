@@ -37,6 +37,11 @@ class EwaysClient implements EwaysClientInterface
     protected $product = [];
 
     /**
+     * @var array
+     */
+    protected $requestResponse = [];
+
+    /**
      * Client constructor.
      * @param string $username
      * @param string $password
@@ -119,7 +124,7 @@ class EwaysClient implements EwaysClientInterface
 
         $this->getProductClient->result();
 
-        $this->product = $this->getProductClient->find($productId);
+        $this->setProduct($this->getProductClient->find($productId));
 
         if (empty($this->product)) {
             throw InvalidConfigurationError::productNotFound($productId);
@@ -127,8 +132,8 @@ class EwaysClient implements EwaysClientInterface
 
         $this->requestId($this->getProductClient->requestId());
 
-        $this->requestPinClient->quantity($quantity)->productType($productId)->mobile($mobile)->email($email)
-            ->optional($optional)->refUrl($refUrl)->result();
+        $this->setRequestResponse($this->requestPinClient->quantity($quantity)->productType($productId)->mobile($mobile)->email($email)
+            ->optional($optional)->refUrl($refUrl)->result());
 
         return $this->getStatusClient->result();
     }
@@ -160,5 +165,51 @@ class EwaysClient implements EwaysClientInterface
     public function getStatusClient(): GetStatusInterface
     {
         return $this->getStatusClient;
+    }
+
+    /**
+     * Set product on client
+     *
+     * @param array $product
+     * @return EwaysClientInterface
+     */
+    public function setProduct(array $product): EwaysClientInterface
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product from client
+     *
+     * @return array
+     */
+    public function getProduct(): array
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set requestResponse
+     *
+     * @param array $response
+     * @return EwaysClientInterface
+     */
+    public function setRequestResponse(array $response): EwaysClientInterface
+    {
+        $this->requestResponse = $response;
+
+        return $this;
+    }
+
+    /**
+     * Get requestResponse
+     *
+     * @return array
+     */
+    public function getRequestResponse(): array
+    {
+        return $this->requestResponse;
     }
 }
