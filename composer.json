@@ -1,0 +1,47 @@
+{
+    "name": "gdpa/eways-client",
+    "description": "A client for Eways.ir Apis",
+    "keywords": [
+        "gdpa",
+        "eways-client",
+        "soap"
+    ],
+    "homepage": "https://github.com/gdpa/eways-client",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Morteza Poussaneh",
+            "email": "morteza.poussaneh@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "ext-soap": "*",
+        "ext-json": "*",
+        "ext-simplexml": "*"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GDPA\\EwaysClient\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GDPA\\EwaysClient\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
