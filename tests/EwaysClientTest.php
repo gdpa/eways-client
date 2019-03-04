@@ -241,4 +241,40 @@ class EwaysClientTest extends TestCase
         $ewaysClient->setRequestResponse($response);
         $this->assertEquals($response, $ewaysClient->getRequestResponse());
     }
+
+    /** @test */
+    public function it_calls_result_on_get_status_for_getting_status()
+    {
+        $transactionId = 1;
+        $requestId = 'uuid';
+
+        $getProductMock = \Mockery::mock(GetProduct::class);
+        $requestPinMock = \Mockery::mock(RequestPin::class);
+        $getStatusMock = \Mockery::mock(GetStatus::class);
+
+        $getProductMock->shouldReceive('transactionId')
+            ->with($transactionId)
+            ->once()
+            ->andReturn($getProductMock);
+
+        $getStatusMock->shouldReceive('transactionId')
+            ->with($transactionId)
+            ->once()
+            ->andReturn($getStatusMock);
+        $getStatusMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($getStatusMock);
+        $requestPinMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestPinMock);
+        $getStatusMock->shouldReceive('result')
+            ->once()
+            ->andReturn(GetStatusClientResponse::successResult());
+
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $result = $client->getStatus($transactionId, $requestId);
+        $this->assertArrayHasKey('Status', $result);
+    }
 }

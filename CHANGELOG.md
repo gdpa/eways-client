@@ -2,6 +2,10 @@
 
 All notable changes to `eways-client` will be documented in this file
 
+## 1.2.0 - 2019-03-04
+
+- Add getStatus function in EwaysClient
+
 ## 1.1.0 - 2019-02-27
 
 - Add getProduct function

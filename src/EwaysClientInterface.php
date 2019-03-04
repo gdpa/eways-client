@@ -97,4 +97,13 @@ interface EwaysClientInterface
      * @return array
      */
     public function getRequestResponse() : array;
+
+    /**
+     * Get status from Get status client
+     *
+     * @param string $transactionId
+     * @param string $requestID
+     * @return array
+     */
+    public function getStatus(string $transactionId, string $requestID) : array;
 }

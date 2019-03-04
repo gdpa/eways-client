@@ -22,6 +22,10 @@ composer require gdpa/eways-client
 $ewaysClient = new EwaysClient('username', 'password');
 $ewaysClient->orderPin($transactionId, $productId, $mobile, $quantity, $email, $optional, $refUrl);
 
+// Check order status in one shot
+$ewaysClient = new EwaysClient('username', 'password');
+$ewaysClient->getStatus('transactionID', 'requestID');
+
 // Get products
 $getProducts = new GetProduct('username');
 $getProducts->products();

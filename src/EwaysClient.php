@@ -212,4 +212,19 @@ class EwaysClient implements EwaysClientInterface
     {
         return $this->requestResponse;
     }
+
+    /**
+     * Get status from Get status client
+     *
+     * @param string $transactionId
+     * @param string $requestID
+     * @return array
+     */
+    public function getStatus(string $transactionId, string $requestID): array
+    {
+        $this->transactionId($transactionId);
+        $this->requestId($requestID);
+
+        return $this->getStatusClient->result();
+    }
 }
