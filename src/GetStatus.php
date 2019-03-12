@@ -4,6 +4,7 @@ namespace GDPA\EwaysClient;
 
 use GDPA\EwaysClient\Exceptions\ConnectionError;
 use GDPA\EwaysClient\Exceptions\InvalidConfigurationError;
+use GDPA\EwaysClient\Interfaces\GetStatusInterface;
 
 class GetStatus implements GetStatusInterface
 {

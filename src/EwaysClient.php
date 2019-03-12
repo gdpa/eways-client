@@ -3,21 +3,25 @@
 namespace GDPA\EwaysClient;
 
 use GDPA\EwaysClient\Exceptions\InvalidConfigurationError;
+use GDPA\EwaysClient\Interfaces\EwaysClientInterface;
+use GDPA\EwaysClient\Interfaces\GetProductInterface;
+use GDPA\EwaysClient\Interfaces\GetStatusInterface;
+use GDPA\EwaysClient\Interfaces\RequestPinInterface;
 
 class EwaysClient implements EwaysClientInterface
 {
     /**
-     * @var GetProduct
+     * @var GetProductInterface
      */
     protected $getProductClient;
 
     /**
-     * @var RequestPin
+     * @var RequestPinInterface
      */
     protected $requestPinClient;
 
     /**
-     * @var GetStatus
+     * @var GetStatusInterface
      */
     protected $getStatusClient;
 

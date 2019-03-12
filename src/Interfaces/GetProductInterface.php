@@ -1,6 +1,6 @@
 <?php
 
-namespace GDPA\EwaysClient;
+namespace GDPA\EwaysClient\Interfaces;
 
 interface GetProductInterface
 {
