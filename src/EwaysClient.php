@@ -6,6 +6,7 @@ use GDPA\EwaysClient\Exceptions\InvalidConfigurationError;
 use GDPA\EwaysClient\Interfaces\EwaysClientInterface;
 use GDPA\EwaysClient\Interfaces\GetProductInterface;
 use GDPA\EwaysClient\Interfaces\GetStatusInterface;
+use GDPA\EwaysClient\Interfaces\RequestBillInterface;
 use GDPA\EwaysClient\Interfaces\RequestPinInterface;
 
 class EwaysClient implements EwaysClientInterface
@@ -24,6 +25,11 @@ class EwaysClient implements EwaysClientInterface
      * @var GetStatusInterface
      */
     protected $getStatusClient;
+
+    /**
+     * @var RequestBillInterface
+     */
+    protected $requestBillClient;
 
     /**
      * @var string
@@ -52,12 +58,15 @@ class EwaysClient implements EwaysClientInterface
      * @param GetProductInterface|null $getProduct
      * @param RequestPinInterface|null $requestPin
      * @param GetStatusInterface|null $getStatus
+     * @param RequestBillInterface|null $requestBill
      */
-    public function __construct(string $username, string $password, ?GetProductInterface $getProduct = null, ?RequestPinInterface $requestPin = null, ?GetStatusInterface $getStatus = null)
+    public function __construct(string $username, string $password, ?GetProductInterface $getProduct = null,
+        ?RequestPinInterface $requestPin = null, ?GetStatusInterface $getStatus = null, ?RequestBillInterface $requestBill = null)
     {
         $this->getProductClient = $getProduct ?: new GetProduct($username);
         $this->requestPinClient = $requestPin ?: new RequestPin($password);
         $this->getStatusClient = $getStatus ?: new GetStatus();
+        $this->requestBillClient = $requestBill ?: new RequestBill($password);
     }
 
     /**
@@ -96,6 +105,7 @@ class EwaysClient implements EwaysClientInterface
         $this->requestId = $requestId;
         $this->requestPinClient->requestId($this->requestId);
         $this->getStatusClient->requestId($this->requestId);
+        $this->requestBillClient->requestId($this->requestId);
 
         return $this;
     }
@@ -172,6 +182,15 @@ class EwaysClient implements EwaysClientInterface
     }
 
     /**
+     * Access to RequestBill client
+     * @return RequestBillInterface
+     */
+    public function requestBillClient(): RequestBillInterface
+    {
+        return $this->requestBillClient;
+    }
+
+    /**
      * Set product on client
      *
      * @param array $product
@@ -230,5 +249,27 @@ class EwaysClient implements EwaysClientInterface
         $this->requestId($requestID);
 
         return $this->getStatusClient->result();
+    }
+
+    /**
+     * Pay bill
+     *
+     * @param string $transactionId
+     * @param string $billId
+     * @param string $payId
+     * @param string $optional
+     * @return array
+     */
+    public function payBill(string $transactionId, string $billId, string $payId, $optional = ''): array
+    {
+        $this->transactionId($transactionId);
+
+        $this->getProductClient->result();
+
+        $this->requestId($this->getProductClient->requestId());
+
+        $this->setRequestResponse($this->requestBillClient->billId($billId)->payId($payId)->optional($optional)->result());
+
+        return $this->requestResponse;
     }
 }

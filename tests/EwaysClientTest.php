@@ -6,9 +6,11 @@ use GDPA\EwaysClient\EwaysClient;
 use GDPA\EwaysClient\Exceptions\InvalidConfigurationError;
 use GDPA\EwaysClient\GetProduct;
 use GDPA\EwaysClient\GetStatus;
+use GDPA\EwaysClient\RequestBill;
 use GDPA\EwaysClient\RequestPin;
 use GDPA\EwaysClient\Test\GetProductClientResponse;
 use GDPA\EwaysClient\Test\GetStatusClientResponse;
+use GDPA\EwaysClient\Test\RequestBillResponse;
 use GDPA\EwaysClient\Test\RequestPinClientResponse;
 use PHPUnit\Framework\TestCase;
 
@@ -22,6 +24,7 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
 
         $getProductMock->shouldReceive('transactionId')
             ->with($transactionId)
@@ -33,7 +36,7 @@ class EwaysClientTest extends TestCase
             ->once()
             ->andReturn($getStatusMock);
 
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $client->transactionId($transactionId);
         $this->assertEquals($transactionId, $client->getTransactionId());
     }
@@ -46,6 +49,7 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
 
         $requestPinMock->shouldReceive('requestId')
             ->with($requestId)
@@ -57,7 +61,12 @@ class EwaysClientTest extends TestCase
             ->once()
             ->andReturn($getStatusMock);
 
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $requestBillMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestBillMock);
+
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $client->requestId($requestId);
         $this->assertEquals($requestId, $client->getRequestId());
     }
@@ -68,7 +77,8 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $this->assertEquals($getProductMock, $client->getProductClient());
     }
 
@@ -88,8 +98,20 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $this->assertEquals($getStatusMock, $client->getStatusClient());
+    }
+
+    /** @test */
+    public function it_get_access_to_request_bill_client()
+    {
+        $getProductMock = \Mockery::mock(GetProduct::class);
+        $requestPinMock = \Mockery::mock(RequestPin::class);
+        $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
+        $this->assertEquals($requestBillMock, $client->requestBillClient());
     }
 
     /** @test */
@@ -107,6 +129,7 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
 
         $getProductMock->shouldReceive('transactionId')
             ->with($transactionId)
@@ -132,6 +155,11 @@ class EwaysClientTest extends TestCase
             ->andReturn($requestId);
 
         $requestPinMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestPinMock);
+
+        $requestBillMock->shouldReceive('requestId')
             ->with($requestId)
             ->once()
             ->andReturn($requestPinMock);
@@ -179,7 +207,7 @@ class EwaysClientTest extends TestCase
             ->once()
             ->andReturn(GetStatusClientResponse::successResult());
 
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $results = $client->orderPin($transactionId, $productId, $mobile, $quantity, $email, $optional, $refUrl);
         $this->assertEquals($results, GetStatusClientResponse::successResult());
     }
@@ -199,6 +227,7 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
 
         $getProductMock->shouldReceive('transactionId')
             ->with($transactionId)
@@ -218,7 +247,7 @@ class EwaysClientTest extends TestCase
             ->with($productId)
             ->once()
             ->andReturn([]);
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $client->orderPin($transactionId, $productId, $mobile, $quantity, $email, $optional, $refUrl);
     }
 
@@ -251,6 +280,7 @@ class EwaysClientTest extends TestCase
         $getProductMock = \Mockery::mock(GetProduct::class);
         $requestPinMock = \Mockery::mock(RequestPin::class);
         $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
 
         $getProductMock->shouldReceive('transactionId')
             ->with($transactionId)
@@ -269,12 +299,89 @@ class EwaysClientTest extends TestCase
             ->with($requestId)
             ->once()
             ->andReturn($requestPinMock);
+        $requestBillMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestBillMock);
         $getStatusMock->shouldReceive('result')
             ->once()
             ->andReturn(GetStatusClientResponse::successResult());
 
-        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock);
+        $client = new EwaysClient('username', 'password', $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
         $result = $client->getStatus($transactionId, $requestId);
         $this->assertArrayHasKey('Status', $result);
+    }
+
+    /** @test */
+    public function it_can_pay_bill()
+    {
+        $transactionId = 1;
+        $username = 'username';
+        $password = 'password';
+        $requestId = 'uuid';
+        $billId = '123';
+        $payId = '1234';
+        $optional = 'optional';
+
+        $getProductMock = \Mockery::mock(GetProduct::class);
+        $requestPinMock = \Mockery::mock(RequestPin::class);
+        $getStatusMock = \Mockery::mock(GetStatus::class);
+        $requestBillMock = \Mockery::mock(RequestBill::class);
+
+        $getProductMock->shouldReceive('transactionId')
+            ->with($transactionId)
+            ->once()
+            ->andReturn($getProductMock);
+
+        $getStatusMock->shouldReceive('transactionId')
+            ->with($transactionId)
+            ->once()
+            ->andReturn($getStatusMock);
+
+        $getProductMock->shouldReceive('result')
+            ->once()
+            ->andReturn([]);
+
+        $getProductMock->shouldReceive('requestId')
+            ->once()
+            ->andReturn($requestId);
+
+        $requestPinMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestPinMock);
+
+        $getStatusMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($getStatusMock);
+
+        $requestBillMock->shouldReceive('requestId')
+            ->with($requestId)
+            ->once()
+            ->andReturn($requestPinMock);
+
+        $requestBillMock->shouldReceive('billId')
+            ->with($billId)
+            ->once()
+            ->andReturn($requestBillMock);
+
+        $requestBillMock->shouldReceive('payId')
+            ->with($payId)
+            ->once()
+            ->andReturn($requestBillMock);
+
+        $requestBillMock->shouldReceive('optional')
+            ->with($optional)
+            ->once()
+            ->andReturn($requestBillMock);
+
+        $requestBillMock->shouldReceive('result')
+            ->once()
+            ->andReturn(RequestBillResponse::successResult());
+
+        $client = new EwaysClient($username, $password, $getProductMock, $requestPinMock, $getStatusMock, $requestBillMock);
+        $results = $client->payBill($transactionId, $billId, $payId, $optional);
+        $this->assertEquals($results, RequestBillResponse::successResult());
     }
 }

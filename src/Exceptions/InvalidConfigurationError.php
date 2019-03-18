@@ -33,4 +33,14 @@ class InvalidConfigurationError extends \Exception
     {
         return new static("It seems there is no product with id $productId .");
     }
+
+    public static function billIdIsRequired()
+    {
+        return new static('Bill ID is required to make a request');
+    }
+
+    public static function payIdIsRequired()
+    {
+        return new static('Pay ID is required to make a request');
+    }
 }

@@ -105,6 +105,32 @@ class GetProductResponseTest extends TestCase
         $this->assertArrayHasKey('Serial', $response);
         $this->assertArrayHasKey('ProductCode', $response);
     }
+
+    /** @test */
+    public function test_request_bill_response_success()
+    {
+        $response = RequestBillResponse::success();
+        $this->assertObjectHasAttribute('RequestBillResult', $response);
+        $this->assertObjectHasAttribute('ResultCode', $response->RequestBillResult);
+        $this->assertObjectHasAttribute('Message', $response->RequestBillResult);
+    }
+
+    /** @test */
+    public function test_request_bill_response_failed()
+    {
+        $response = RequestBillResponse::failed();
+        $this->assertObjectHasAttribute('RequestBillResult', $response);
+        $this->assertObjectHasAttribute('ResultCode', $response->RequestBillResult);
+        $this->assertObjectHasAttribute('Message', $response->RequestBillResult);
+    }
+
+    /** @test */
+    public function test_request_bill_success_result_response()
+    {
+        $response = RequestBillResponse::successResult();
+        $this->assertArrayHasKey('ResultCode', $response);
+        $this->assertArrayHasKey('Message', $response);
+    }
 }
 
 class GetProductResponse
@@ -295,5 +321,36 @@ class GetStatusClientResponse
         $data['MobileNo'] = '';
         $data['ExpireDate'] = '';
         return $data;
+    }
+}
+
+class RequestBillResponse
+{
+    public static function success()
+    {
+        $obj = new \stdClass();
+        $obj->RequestBillResult = new \stdClass();
+        $obj->RequestBillResult->ResultCode = 114;
+        $obj->RequestBillResult->Message = 'درخواست با موفقیت انجام شد';
+
+        return $obj;
+    }
+
+    public static function failed()
+    {
+        $obj = new \stdClass();
+        $obj->RequestBillResult = new \stdClass();
+        $obj->RequestBillResult->ResultCode = -4;
+        $obj->RequestBillResult->Message = 'اطلاعات قبض ناقص می باشد';
+
+        return $obj;
+    }
+
+    public static function successResult()
+    {
+        return [
+            'ResultCode' => 114,
+            'Message' => 'درخواست با موفقیت انجام شد',
+        ];
     }
 }

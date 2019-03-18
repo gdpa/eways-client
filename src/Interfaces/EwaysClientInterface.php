@@ -69,6 +69,12 @@ interface EwaysClientInterface
     public function getStatusClient() : GetStatusInterface;
 
     /**
+     * Access to RequestBill client
+     * @return RequestBillInterface
+     */
+    public function requestBillClient(): RequestBillInterface;
+
+    /**
      * Set product on client
      *
      * @param array $product
@@ -106,4 +112,15 @@ interface EwaysClientInterface
      * @return array
      */
     public function getStatus(string $transactionId, string $requestID) : array;
+
+    /**
+     * Pay bill
+     *
+     * @param string $transactionId
+     * @param string $billId
+     * @param string $payId
+     * @param string $optional
+     * @return array
+     */
+    public function payBill(string $transactionId, string $billId, string $payId, $optional = '') : array;
 }

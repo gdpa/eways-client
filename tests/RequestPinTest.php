@@ -43,7 +43,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_mobile_number()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $mobile = '+989999999999';
         $requestPin->mobile($mobile);
         $this->assertEquals($mobile, $requestPin->getMobile());
@@ -53,7 +52,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_email()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $email = 'info@example.com';
         $requestPin->email($email);
         $this->assertEquals($email, $requestPin->getEmail());
@@ -63,7 +61,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_ref_url()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $url = 'http://example.com';
         $requestPin->refUrl($url);
         $this->assertEquals($url, $requestPin->getRefUrl());
@@ -73,7 +70,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_optionals()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $optional = 'optional parameter';
         $requestPin->optional($optional);
         $this->assertEquals($optional, $requestPin->getOptional());
@@ -83,7 +79,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_quantity()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $quantity = 2;
         $requestPin->quantity($quantity);
         $this->assertEquals($quantity, $requestPin->getQuantity());
@@ -93,7 +88,6 @@ class RequestPinTest extends TestCase
     public function it_set_and_get_product_type()
     {
         $requestPin = new RequestPin('password');
-        $this->assertEquals('password', $requestPin->getPassword());
         $productType = 1;
         $requestPin->productType($productType);
         $this->assertEquals($productType, $requestPin->getProductType());
@@ -203,7 +197,7 @@ class RequestPinTest extends TestCase
     }
 
     /** @test */
-    public function it_throw_exception_if_status_is_not_500_or_0()
+    public function it_throw_exception_if_status_is_in_error_codes()
     {
         $this->expectException(ConnectionError::class);
         $password = 'password';

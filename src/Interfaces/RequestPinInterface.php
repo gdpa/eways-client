@@ -2,38 +2,8 @@
 
 namespace GDPA\EwaysClient\Interfaces;
 
-interface RequestPinInterface
+interface RequestPinInterface extends RequestInterface
 {
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return RequestPinInterface
-     */
-    public function setPassword(string $password) : RequestPinInterface;
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword() : string ;
-
-    /**
-     * Set Request ID
-     *
-     * @param string $id
-     * @return RequestPinInterface
-     */
-    public function requestId(string $id) : RequestPinInterface;
-
-    /**
-     * Get Request ID
-     *
-     * @return string
-     */
-    public function getRequestId() : string;
-
     /**
      * Set Mobile
      *
@@ -80,20 +50,6 @@ interface RequestPinInterface
     public function getRefUrl() : string;
 
     /**
-     * Set OptionalParam
-     *
-     * @param $optional
-     * @return RequestPinInterface
-     */
-    public function optional($optional) : RequestPinInterface;
-
-    /**
-     * Get OptionalParam
-     * @return mixed
-     */
-    public function getOptional();
-
-    /**
      * Set Quantity
      *
      * @param int $quantity
@@ -122,27 +78,6 @@ interface RequestPinInterface
      * @return int
      */
     public function getProductType() : int ;
-
-    /**
-     * Call RequestPin SOAP
-     *
-     * @return RequestPinInterface
-     */
-    public function call() : RequestPinInterface;
-
-    /**
-     * Get response from calling SOAP
-     *
-     * @return array
-     */
-    public function getResponse() : array;
-
-    /**
-     * Get results from response
-     *
-     * @return array
-     */
-    public function result() : array;
 
     /**
      * Get OrderID from results
