@@ -2,6 +2,10 @@
 
 All notable changes to `eways-client` will be documented in this file
 
+## 1.3.2 - 2019-04-04
+
+- Fixed typo
+
 ## 1.3.1 - 2019-04-04
 
 - Support -16 bill status
