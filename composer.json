@@ -17,14 +17,14 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": "^7.2",
         "ext-soap": "*",
         "ext-json": "*",
         "ext-simplexml": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "psr-4": {
